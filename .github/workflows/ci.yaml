@@ -35,6 +35,6 @@ jobs:
         image: mohamed2093/mohamed-bashir-private
         registry: docker.io
         tags: v1, latest
-        dockerfile: Dockerfile.ci
+        dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
