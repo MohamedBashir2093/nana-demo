@@ -33,6 +33,7 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: mohamed2093/mohamed-bashir-private
+        registry: docker.io
         tags: v1, latest
         dockerfile: Dockerfile.ci
         username: ${{ secrets.DOCKER_USERNAME }}
