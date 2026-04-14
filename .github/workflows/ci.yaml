@@ -1,5 +1,4 @@
-
-name: Java CI with Gradle
+name: Java CI with Gradle + Docker
 
 on:
   push:
@@ -12,29 +11,32 @@ jobs:
 
     runs-on: ubuntu-latest
 
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
       with:
-        java-version: 1.8
-        
+        java-version: 17
+        distribution: 'temurin'
+        cache: gradle   # 🔥 speeds up builds
 
-   
     - name: Grant permission
       run: chmod +x gradlew
 
-    - name: Build with Gradle Wrapper
-      run: ./gradlew build
+    - name: Build with Gradle
+      run: ./gradlew build --no-daemon
+
+    # Optional but VERY useful for debugging
+    - name: List build output
+      run: ls build/libs
 
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: mohamed2093/mohamed-bashir-private
         registry: docker.io
-        tags: v1, latest
+        tags: latest,${{ github.sha }}   # 🔥 versioning
         dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
